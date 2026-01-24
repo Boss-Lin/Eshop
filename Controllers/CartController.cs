@@ -1,6 +1,6 @@
 namespace EShop.Controllers;
 
-public class ShopController
+public class CartController
 {
     
 }
