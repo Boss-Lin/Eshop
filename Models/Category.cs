@@ -1,6 +1,6 @@
-namespace EShop.Model;
+namespace EShop.Models;
 
-public class Role
+public class Category
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -8,5 +8,5 @@ public class Role
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // 導航屬性
-    public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+    public ICollection<Product> Products { get; set; } = new List<Product>();
 }

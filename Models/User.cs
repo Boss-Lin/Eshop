@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using EShop.Model;
+using EShop.Models;
 
 public class User
 {

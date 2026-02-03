@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="DTO\" />
+    <Folder Include="Model\" />
     <Folder Include="Utils\" />
   </ItemGroup>
 

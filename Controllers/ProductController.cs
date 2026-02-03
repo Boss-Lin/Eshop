@@ -1,4 +1,4 @@
-using EShop.Model;
+using EShop.Models;
 using EShop.Service;
 using Microsoft.AspNetCore.Mvc;
 
