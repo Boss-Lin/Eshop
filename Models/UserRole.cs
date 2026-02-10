@@ -1,11 +1,9 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace EShop.Models;
 
-public class UserRole
+public class UserRole : IdentityUserRole<int>
 {
-    public int Id { get; set; }
-    public int UserId { get; set; }
-    public int RoleId { get; set; }
-
     // 導航屬性
     public User User { get; set; } = null!;
     public Role Role { get; set; } = null!;

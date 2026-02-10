@@ -1,10 +1,9 @@
 using EShop.Data;
-using EShop.Models;
+using EShop.DTO;
 using EShop.Models.Response;
 using EShop.Service;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BC = BCrypt.Net.BCrypt;
 
 namespace EShop.Controllers;
 
@@ -14,47 +13,64 @@ public class AuthController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly JwtTokenGenerator _jwtTokenGenerator;
-    
-    public AuthController(AppDbContext context, JwtTokenGenerator jwtTokenGenerator)
+    private readonly UserManager<User> _userManager;
+
+    public AuthController(UserManager<User> userManager, JwtTokenGenerator jwtTokenGenerator)
     {
-        _context = context;
+        _userManager = userManager;
         _jwtTokenGenerator = jwtTokenGenerator;
     }
-    
+
+    // 使用者註冊
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ApiResponse<AuthResponse>.FailureResponse("輸入資料無效"));
+
+        var user = new User
+        {
+            UserName = registerRequestDto.Email,
+            Email = registerRequestDto.Email,
+            Name = registerRequestDto.Name,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        var identityResult = await _userManager.CreateAsync(user, registerRequestDto.Password);
+
+        if (!identityResult.Succeeded)
+        {
+            var errors = identityResult.Errors.Select(e => e.Description).ToList();
+            return BadRequest(ApiResponse<AuthResponse>.FailureResponse("註冊失敗", errors));
+        }
+
+        // 新增為 Customer 角色
+        await _userManager.AddToRoleAsync(user, "Customer");
+
+        return Ok(ApiResponse<AuthResponse>.SuccessResponse(null, "註冊成功"));
+    }
+
     // 使用者登入
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
-    {
-        if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
-        {
-            return BadRequest(ApiResponse<AuthResponse>.FailureResponse(
-                "Email 和密碼不能為空",
-                new List<string> { "Email 為必填", "密碼為必填" }
-            ));
-        }
+    public async Task<IActionResult> Login([FromBody] LoginRequestDto request){
+        // 1. 雖然 [ApiController] 會自動檢查，但手動保留這塊可增加自定義彈性
+        if (!ModelState.IsValid)
+            return BadRequest(ApiResponse<AuthResponse>.FailureResponse("輸入資料無效"));
 
-        // 查找使用者
-        var user = await _context.Users
-            .Include(u => u.UserRoles)
-            .ThenInclude(ur => ur.Role)
-            .FirstOrDefaultAsync(u => u.Email == request.Email);
+        // 2. 尋找使用者
+        var user = await _userManager.FindByEmailAsync(request.Email);
 
-        if (user == null)
-        {
-            return Unauthorized(ApiResponse<AuthResponse>.FailureResponse("使用者不存在"));
-        }
+        if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
+            return Unauthorized(ApiResponse<AuthResponse>.FailureResponse("電子郵件或密碼不正確"));
 
-        // 驗證密碼
-        if (!BC.Verify(request.Password, user.PasswordHash))
-        {
-            return Unauthorized(ApiResponse<AuthResponse>.FailureResponse("密碼不正確"));
-        }
+        // 4. 取得角色 (考慮到一名用戶可能有多個角色，若只取第一個，建議增加預設值)
+        var roles = await _userManager.GetRolesAsync(user);
+        var role = roles.FirstOrDefault() ?? "Customer";
 
-        // 獲取使用者角色
-        var role = user.UserRoles.FirstOrDefault()?.Role?.Name ?? "Customer";
-
-        // 生成令牌
-        var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email, user.Name, role);
+        // 5. 產生 Token
+        var token = _jwtTokenGenerator.GenerateToken(user.Id, user.Email ?? "", user.Name ?? "User", role);
 
         var response = new AuthResponse
         {
@@ -68,66 +84,6 @@ public class AuthController : ControllerBase
                 Role = role
             }
         };
-
         return Ok(ApiResponse<AuthResponse>.SuccessResponse(response, "登入成功"));
-    }
-    
-    // 使用者註冊
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
-    {
-        if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password) || string.IsNullOrEmpty(request.Name))
-        {
-            return BadRequest(new { message = "Email、密碼和名稱不能為空" });
-        }
-
-        // 檢查使用者是否已存在
-        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-        if (existingUser != null)
-        {
-            return BadRequest(new { message = "使用者已存在" });
-        }
-
-        // 建立新使用者
-        var user = new User
-        {
-            Email = request.Email,
-            PasswordHash = BC.HashPassword(request.Password),
-            Name = request.Name,
-            IsActive = true,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
-        };
-
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
-
-        // 指派 Customer 角色
-        var customerRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "Customer");
-        if (customerRole != null)
-        {
-            var userRole = new UserRole
-            {
-                UserId = user.Id,
-                RoleId = customerRole.Id
-            };
-            _context.UserRoles.Add(userRole);
-            await _context.SaveChangesAsync();
-        }
-
-        return Ok(new { message = "註冊成功", userId = user.Id });
-    }
-
-    public class LoginRequest
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-    }
-
-    public class RegisterRequest
-    {
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
     }
 }

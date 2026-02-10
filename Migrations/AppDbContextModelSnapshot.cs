@@ -17,7 +17,7 @@ namespace EShop.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
-            modelBuilder.Entity("EShop.Model.Cart", b =>
+            modelBuilder.Entity("EShop.Models.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace EShop.Migrations
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("EShop.Model.CartItem", b =>
+            modelBuilder.Entity("EShop.Models.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace EShop.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("EShop.Model.Category", b =>
+            modelBuilder.Entity("EShop.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,34 +91,34 @@ namespace EShop.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3280),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2600),
                             Description = "各類電子設備",
                             Name = "電子產品"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3280),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2600),
                             Description = "各類書籍",
                             Name = "圖書"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3280),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2610),
                             Description = "衣服和鞋類",
                             Name = "服裝"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3290),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2610),
                             Description = "家庭用品",
                             Name = "家居用品"
                         });
                 });
 
-            modelBuilder.Entity("EShop.Model.Order", b =>
+            modelBuilder.Entity("EShop.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,24 +150,24 @@ namespace EShop.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 14, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3450),
+                            CreatedAt = new DateTime(2026, 1, 30, 3, 27, 7, 891, DateTimeKind.Utc).AddTicks(2210),
                             Status = "Delivered",
                             TotalPrice = 1599.97m,
-                            UpdatedAt = new DateTime(2026, 1, 19, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3460),
+                            UpdatedAt = new DateTime(2026, 2, 4, 3, 27, 7, 891, DateTimeKind.Utc).AddTicks(2220),
                             UserId = 2
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 21, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3460),
+                            CreatedAt = new DateTime(2026, 2, 6, 3, 27, 7, 891, DateTimeKind.Utc).AddTicks(2220),
                             Status = "Shipped",
                             TotalPrice = 99.98m,
-                            UpdatedAt = new DateTime(2026, 1, 23, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3460),
+                            UpdatedAt = new DateTime(2026, 2, 8, 3, 27, 7, 891, DateTimeKind.Utc).AddTicks(2220),
                             UserId = 3
                         });
                 });
 
-            modelBuilder.Entity("EShop.Model.OrderItem", b =>
+            modelBuilder.Entity("EShop.Models.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -226,7 +226,7 @@ namespace EShop.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EShop.Model.Product", b =>
+            modelBuilder.Entity("EShop.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -269,108 +269,112 @@ namespace EShop.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3310),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2650),
                             Description = "最新款蘋果手機，配備 A17 Pro 晶片",
                             Name = "iPhone 15 Pro",
                             Price = 999.99m,
                             Stock = 50,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3310)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2650)
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3310),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2660),
                             Description = "高效能筆記本電腦，適合專業工作",
                             Name = "MacBook Pro 16",
                             Price = 2499.99m,
                             Stock = 20,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3310)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2660)
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 1,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3310),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2660),
                             Description = "輕薄平板電腦，適合娛樂和工作",
                             Name = "iPad Air",
                             Price = 599.99m,
                             Stock = 35,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3310)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2660)
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 2,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3320),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2660),
                             Description = "深入學習 C# 程式設計",
                             Name = "C# 完全指南",
                             Price = 49.99m,
                             Stock = 100,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3320)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2660)
                         },
                         new
                         {
                             Id = 5,
                             CategoryId = 2,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3320),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670),
                             Description = "學習如何使用 .NET Core 開發應用",
                             Name = ".NET Core 實戰",
                             Price = 59.99m,
                             Stock = 80,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3320)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670)
                         },
                         new
                         {
                             Id = 6,
                             CategoryId = 3,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3320),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670),
                             Description = "舒適的棉質 T 恤",
                             Name = "T恤",
                             Price = 19.99m,
                             Stock = 200,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3320)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670)
                         },
                         new
                         {
                             Id = 7,
                             CategoryId = 3,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3350),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670),
                             Description = "經典牛仔褲",
                             Name = "牛仔褲",
                             Price = 79.99m,
                             Stock = 150,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3350)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670)
                         },
                         new
                         {
                             Id = 8,
                             CategoryId = 4,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3350),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670),
                             Description = "全自動咖啡機",
                             Name = "咖啡機",
                             Price = 129.99m,
                             Stock = 40,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3350)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2670)
                         },
                         new
                         {
                             Id = 9,
                             CategoryId = 4,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3350),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2680),
                             Description = "LED 護眼台燈",
                             Name = "台燈",
                             Price = 39.99m,
                             Stock = 60,
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3350)
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2680)
                         });
                 });
 
-            modelBuilder.Entity("EShop.Model.Role", b =>
+            modelBuilder.Entity("EShop.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
@@ -380,31 +384,41 @@ namespace EShop.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3180),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2450),
                             Description = "管理員",
-                            Name = "Admin"
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3190),
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 778, DateTimeKind.Utc).AddTicks(2460),
                             Description = "客戶",
-                            Name = "Customer"
+                            Name = "Customer",
+                            NormalizedName = "CUSTOMER"
                         });
                 });
 
-            modelBuilder.Entity("EShop.Model.UserRole", b =>
+            modelBuilder.Entity("EShop.Models.UserRole", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
@@ -412,34 +426,112 @@ namespace EShop.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("AspNetUserRoles", (string)null);
 
                     b.HasData(
                         new
                         {
                             UserId = 1,
-                            RoleId = 1,
-                            Id = 0
+                            RoleId = 1
                         },
                         new
                         {
                             UserId = 2,
-                            RoleId = 2,
-                            Id = 0
+                            RoleId = 2
                         },
                         new
                         {
                             UserId = 3,
-                            RoleId = 2,
-                            Id = 0
+                            RoleId = 2
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("User", b =>
@@ -448,66 +540,141 @@ namespace EShop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired()
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3410),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "30d74e3e-7f1e-4087-a9b7-84b6e0891232",
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 815, DateTimeKind.Utc).AddTicks(8690),
                             Email = "admin@example.com",
+                            EmailConfirmed = true,
                             IsActive = true,
+                            LockoutEnabled = true,
                             Name = "管理員",
-                            PasswordHash = "hashed_password_123",
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3410)
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEF6CO6xQePeQ91j73ze4L4Z1o5YkTdfIh9zryrwTL6mIVXSGl3at1PxZuBSWgEQFtA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "663c086f-089b-4d16-b564-62e10f32bbc2",
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 815, DateTimeKind.Utc).AddTicks(8690),
+                            UserName = "admin@example.com"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3420),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cb4756b6-0445-435b-92c7-3b5bddb645ea",
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 853, DateTimeKind.Utc).AddTicks(6280),
                             Email = "customer1@example.com",
+                            EmailConfirmed = true,
                             IsActive = true,
+                            LockoutEnabled = true,
                             Name = "客戶一",
-                            PasswordHash = "hashed_password_456",
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3420)
+                            NormalizedEmail = "CUSTOMER1@EXAMPLE.COM",
+                            NormalizedUserName = "CUSTOMER1@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGIipTvWitCHb4U4F1Tl8oW3Nk3iyK4jbtvg/ZyefJt/cLh4NPYb5uk1E/XaXcwmiw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "74c519e2-487b-431a-801d-eaf547e5e146",
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 853, DateTimeKind.Utc).AddTicks(6280),
+                            UserName = "customer1@example.com"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3420),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "81ba3af7-e8d3-45c7-8b18-98900bf1d053",
+                            CreatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 891, DateTimeKind.Utc).AddTicks(1760),
                             Email = "customer2@example.com",
+                            EmailConfirmed = true,
                             IsActive = true,
+                            LockoutEnabled = true,
                             Name = "客戶二",
-                            PasswordHash = "hashed_password_789",
-                            UpdatedAt = new DateTime(2026, 1, 24, 6, 49, 3, 224, DateTimeKind.Utc).AddTicks(3420)
+                            NormalizedEmail = "CUSTOMER2@EXAMPLE.COM",
+                            NormalizedUserName = "CUSTOMER2@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBxTj7YbJhn0C6uVAgDaQVT28svF9fJKFiV0z9EI0ovupAUHmE1FbEwBxOyxkNE09g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1a3ecce9-0212-42a9-b37b-1d9bb7ac57a5",
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2026, 2, 9, 3, 27, 7, 891, DateTimeKind.Utc).AddTicks(1760),
+                            UserName = "customer2@example.com"
                         });
                 });
 
-            modelBuilder.Entity("EShop.Model.Cart", b =>
+            modelBuilder.Entity("EShop.Models.Cart", b =>
                 {
                     b.HasOne("User", "User")
                         .WithMany("Carts")
@@ -518,15 +685,15 @@ namespace EShop.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EShop.Model.CartItem", b =>
+            modelBuilder.Entity("EShop.Models.CartItem", b =>
                 {
-                    b.HasOne("EShop.Model.Cart", "Cart")
+                    b.HasOne("EShop.Models.Cart", "Cart")
                         .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EShop.Model.Product", "Product")
+                    b.HasOne("EShop.Models.Product", "Product")
                         .WithMany("CartItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -537,7 +704,7 @@ namespace EShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("EShop.Model.Order", b =>
+            modelBuilder.Entity("EShop.Models.Order", b =>
                 {
                     b.HasOne("User", "User")
                         .WithMany("Orders")
@@ -548,15 +715,15 @@ namespace EShop.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EShop.Model.OrderItem", b =>
+            modelBuilder.Entity("EShop.Models.OrderItem", b =>
                 {
-                    b.HasOne("EShop.Model.Order", "Order")
+                    b.HasOne("EShop.Models.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EShop.Model.Product", "Product")
+                    b.HasOne("EShop.Models.Product", "Product")
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -567,18 +734,18 @@ namespace EShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("EShop.Model.Product", b =>
+            modelBuilder.Entity("EShop.Models.Product", b =>
                 {
-                    b.HasOne("EShop.Model.Category", "Category")
+                    b.HasOne("EShop.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("EShop.Model.UserRole", b =>
+            modelBuilder.Entity("EShop.Models.UserRole", b =>
                 {
-                    b.HasOne("EShop.Model.Role", "Role")
+                    b.HasOne("EShop.Models.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -595,29 +762,65 @@ namespace EShop.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EShop.Model.Cart", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("EShop.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EShop.Models.Cart", b =>
                 {
                     b.Navigation("CartItems");
                 });
 
-            modelBuilder.Entity("EShop.Model.Category", b =>
+            modelBuilder.Entity("EShop.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("EShop.Model.Order", b =>
+            modelBuilder.Entity("EShop.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("EShop.Model.Product", b =>
+            modelBuilder.Entity("EShop.Models.Product", b =>
                 {
                     b.Navigation("CartItems");
 
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("EShop.Model.Role", b =>
+            modelBuilder.Entity("EShop.Models.Role", b =>
                 {
                     b.Navigation("UserRoles");
                 });

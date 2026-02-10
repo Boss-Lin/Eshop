@@ -1,40 +1,43 @@
-using System.Text;
 using EShop.Data;
-using EShop.Service;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using EShop.Models;
+using EShop.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 註冊 DbContext
+// 讀取 JWT 配置
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var secretKey = jwtSettings["SecretKey"];
+var issuer = jwtSettings["Issuer"];
+var audience = jwtSettings["Audience"];
+
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new InvalidOperationException("JWT SecretKey not configured");
+}
+
+// 新增 DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=ecommerce.db")
-    );
+);
 
-// Add services to the container.
-builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<CartService>();
-builder.Services.AddScoped<CheckoutService>();
-// 新增 JWT Token Generator 服務
-builder.Services.AddScoped<JwtTokenGenerator>();
+// 新增 Identity
+builder.Services.AddIdentity<User, Role>(options =>
+    {
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = true;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 // 新增 JWT 認證
-var jwtSettings = builder.Configuration.GetSection("Jwt");
-var secretKey = jwtSettings["SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey not configured");
-
-builder.Services.AddAuthorization();
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-//
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
+builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -42,17 +45,25 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
             ValidateIssuer = true,
-            ValidIssuer = jwtSettings["Issuer"] ?? "EShop",
+            ValidIssuer = issuer,
             ValidateAudience = true,
-            ValidAudience = jwtSettings["Audience"] ?? "EShopUsers",
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
+            ValidAudience = audience,
+            ValidateLifetime = true
         };
     });
 
+// 新增授權
+builder.Services.AddAuthorization();
+// 新增 JWT Token Generator 服務
+builder.Services.AddScoped<JwtTokenGenerator>();
+
+// 新增 Controllers
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -60,9 +71,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

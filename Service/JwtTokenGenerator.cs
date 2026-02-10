@@ -17,32 +17,26 @@ public class JwtTokenGenerator
     // 生成 JWT 令牌
     public string GenerateToken(int userId, string email, string userName, string role)
     {
-        var secretKey = _configuration["Jwt:SecretKey"] 
-            ?? throw new InvalidOperationException("JWT SecretKey not configured");
-        var issuer = _configuration["Jwt:Issuer"] ?? "EShop";
-        var audience = _configuration["Jwt:Audience"] ?? "EShopUsers";
-        var expirationMinutes = int.Parse(_configuration["Jwt:ExpirationMinutes"] ?? "60");
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]);
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
+        var tokenDescriptor = new SecurityTokenDescriptor
         {
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Name, userName),
-            new Claim(ClaimTypes.Role, role)
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Name, userName),
+                new Claim(ClaimTypes.Role, role)
+            }),
+            Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["ExpirationMinutes"])),
+            Issuer = _configuration["Issuer"],
+            Audience = _configuration["Audience"],
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
-        var token = new JwtSecurityToken(
-            issuer: issuer,
-            audience: audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(expirationMinutes),
-            signingCredentials: credentials
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
     
     // 驗證 JWT 令牌
@@ -50,7 +44,7 @@ public class JwtTokenGenerator
     {
         try
         {
-            var secretKey = _configuration["Jwt:SecretKey"] 
+            var secretKey = _configuration["Jwt:SecretKey"] ?? _configuration["SecretKey"]
                 ?? throw new InvalidOperationException("JWT SecretKey not configured");
             var issuer = _configuration["Jwt:Issuer"] ?? "EShop";
             var audience = _configuration["Jwt:Audience"] ?? "EShopUsers";

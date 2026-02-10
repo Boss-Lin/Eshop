@@ -1,11 +1,10 @@
 using EShop.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace EShop.Models;
 
-public class Role
+public class Role: IdentityRole<int>
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
