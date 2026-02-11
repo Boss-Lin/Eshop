@@ -1,4 +1,4 @@
-using EShop.DTO;
+using EShop.Models.Request;
 using EShop.Models.Response;
 using EShop.Service;
 using Microsoft.AspNetCore.Authorization;
@@ -46,7 +46,7 @@ public class ProductController: ControllerBase
     // 新增商品（需要管理員身份）
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequestDto request)
+    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ApiResponse<object>.FailureResponse("輸入資料無效"));
@@ -62,7 +62,7 @@ public class ProductController: ControllerBase
     // 修改商品（需要管理員身份）
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, [FromBody] CreateProductRequestDto request)
+    public async Task<IActionResult> UpdateProduct(int id, [FromBody] CreateProductRequest request)
     {
         if (!ModelState.IsValid)
             return BadRequest(ApiResponse<object>.FailureResponse("輸入資料無效"));

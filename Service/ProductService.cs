@@ -1,6 +1,7 @@
 using EShop.Data;
 using EShop.DTO;
 using EShop.Models;
+using EShop.Models.Request;
 using EShop.Models.Response;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,12 +17,12 @@ public class ProductService
     }
 
     // 查看所有商品
-    public async Task<ApiResponse<List<ProductDto>>> GetAllProductsAsync()
+    public async Task<ApiResponse<List<Product>>> GetAllProductsAsync()
     {
         try
         {
             var products = await _context.Products
-                .Select(p => new ProductDto
+                .Select(p => new Product
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -34,22 +35,22 @@ public class ProductService
                 })
                 .ToListAsync();
 
-            return ApiResponse<List<ProductDto>>.SuccessResponse(products, "查詢成功");
+            return ApiResponse<List<Product>>.SuccessResponse(products, "查詢成功");
         }
         catch (Exception ex)
         {
-            return ApiResponse<List<ProductDto>>.FailureResponse($"伺服器錯誤: {ex.Message}");
+            return ApiResponse<List<Product>>.FailureResponse($"伺服器錯誤: {ex.Message}");
         }
     }
 
     // 查看單個商品
-    public async Task<ApiResponse<ProductDto>> GetProductByIdAsync(int id)
+    public async Task<ApiResponse<Product>> GetProductByIdAsync(int id)
     {
         try
         {
             var product = await _context.Products
                 .Where(p => p.Id == id)
-                .Select(p => new ProductDto
+                .Select(p => new Product
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -63,18 +64,18 @@ public class ProductService
                 .FirstOrDefaultAsync();
 
             if (product == null)
-                return ApiResponse<ProductDto>.FailureResponse("商品不存在");
+                return ApiResponse<Product>.FailureResponse("商品不存在");
 
-            return ApiResponse<ProductDto>.SuccessResponse(product, "查詢成功");
+            return ApiResponse<Product>.SuccessResponse(product, "查詢成功");
         }
         catch (Exception ex)
         {
-            return ApiResponse<ProductDto>.FailureResponse($"伺服器錯誤: {ex.Message}");
+            return ApiResponse<Product>.FailureResponse($"伺服器錯誤: {ex.Message}");
         }
     }
 
     // 新增商品
-    public async Task<ApiResponse<ProductDto>> CreateProductAsync(CreateProductRequestDto request)
+    public async Task<ApiResponse<ProductDto>> CreateProductAsync(CreateProductRequest request)
     {
         try
         {
@@ -119,7 +120,7 @@ public class ProductService
     }
 
     // 修改商品
-    public async Task<ApiResponse<ProductDto>> UpdateProductAsync(int id, CreateProductRequestDto request)
+    public async Task<ApiResponse<ProductDto>> UpdateProductAsync(int id, CreateProductRequest request)
     {
         try
         {
@@ -184,7 +185,7 @@ public class ProductService
     }
 
     // 私有方法：驗證商品請求
-    private ApiResponse<ProductDto>? ValidateProductRequest(CreateProductRequestDto request)
+    private ApiResponse<ProductDto>? ValidateProductRequest(CreateProductRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Name))
             return ApiResponse<ProductDto>.FailureResponse("商品名稱不能為空");

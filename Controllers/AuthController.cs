@@ -1,5 +1,6 @@
 using EShop.Data;
 using EShop.DTO;
+using EShop.Models.Request;
 using EShop.Models.Response;
 using EShop.Service;
 using Microsoft.AspNetCore.Identity;
@@ -23,22 +24,22 @@ public class AuthController : ControllerBase
 
     // 使用者註冊
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
     {
         if (!ModelState.IsValid)
             return BadRequest(ApiResponse<AuthResponse>.FailureResponse("輸入資料無效"));
 
         var user = new User
         {
-            UserName = registerRequestDto.Email,
-            Email = registerRequestDto.Email,
-            Name = registerRequestDto.Name,
+            UserName = registerRequest.Email,
+            Email = registerRequest.Email,
+            Name = registerRequest.Name,
             IsActive = true,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
 
-        var identityResult = await _userManager.CreateAsync(user, registerRequestDto.Password);
+        var identityResult = await _userManager.CreateAsync(user, registerRequest.Password);
 
         if (!identityResult.Succeeded)
         {
@@ -54,7 +55,7 @@ public class AuthController : ControllerBase
 
     // 使用者登入
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequestDto request){
+    public async Task<IActionResult> Login([FromBody] LoginRequest request){
         // 1. 雖然 [ApiController] 會自動檢查，但手動保留這塊可增加自定義彈性
         if (!ModelState.IsValid)
             return BadRequest(ApiResponse<AuthResponse>.FailureResponse("輸入資料無效"));
