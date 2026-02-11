@@ -11,5 +11,4 @@ public class RegisterRequestDto
     [DataType(DataType.Password)]
     public string Password { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
-    public string[] Roles { get; set; }
 }
