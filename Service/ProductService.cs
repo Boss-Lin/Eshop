@@ -1,5 +1,4 @@
 using EShop.Data;
-using EShop.DTO;
 using EShop.Models;
 using EShop.Models.Request;
 using EShop.Models.Response;
@@ -75,7 +74,7 @@ public class ProductService
     }
 
     // 新增商品
-    public async Task<ApiResponse<ProductDto>> CreateProductAsync(CreateProductRequest request)
+    public async Task<ApiResponse<ProductResponse>> CreateProductAsync(CreateProductRequest request)
     {
         try
         {
@@ -87,13 +86,13 @@ public class ProductService
             // 檢查分類是否存在
             var category = await _context.Categories.FindAsync(request.CategoryId);
             if (category == null)
-                return ApiResponse<ProductDto>.FailureResponse("分類不存在");
+                return ApiResponse<ProductResponse>.FailureResponse("分類不存在");
 
             // 檢查商品名稱是否已存在
             var existingProduct = await _context.Products
                 .FirstOrDefaultAsync(p => p.Name == request.Name);
             if (existingProduct != null)
-                return ApiResponse<ProductDto>.FailureResponse("商品名稱已存在");
+                return ApiResponse<ProductResponse>.FailureResponse("商品名稱已存在");
 
             // 建立商品
             var product = new Product
@@ -111,22 +110,22 @@ public class ProductService
             await _context.SaveChangesAsync();
 
             var productDto = MapToProductDto(product);
-            return ApiResponse<ProductDto>.SuccessResponse(productDto, "商品新增成功");
+            return ApiResponse<ProductResponse>.SuccessResponse(productDto, "商品新增成功");
         }
         catch (Exception ex)
         {
-            return ApiResponse<ProductDto>.FailureResponse($"伺服器錯誤: {ex.Message}");
+            return ApiResponse<ProductResponse>.FailureResponse($"伺服器錯誤: {ex.Message}");
         }
     }
 
     // 修改商品
-    public async Task<ApiResponse<ProductDto>> UpdateProductAsync(int id, CreateProductRequest request)
+    public async Task<ApiResponse<ProductResponse>> UpdateProductAsync(int id, CreateProductRequest request)
     {
         try
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
-                return ApiResponse<ProductDto>.FailureResponse("商品不存在");
+                return ApiResponse<ProductResponse>.FailureResponse("商品不存在");
 
             // 驗證輸入
             var validationError = ValidateProductRequest(request);
@@ -136,13 +135,13 @@ public class ProductService
             // 檢查分類是否存在
             var category = await _context.Categories.FindAsync(request.CategoryId);
             if (category == null)
-                return ApiResponse<ProductDto>.FailureResponse("分類不存在");
+                return ApiResponse<ProductResponse>.FailureResponse("分類不存在");
 
             // 檢查商品名稱是否已被其他商品使用
             var existingProduct = await _context.Products
                 .FirstOrDefaultAsync(p => p.Name == request.Name && p.Id != id);
             if (existingProduct != null)
-                return ApiResponse<ProductDto>.FailureResponse("商品名稱已被其他商品使用");
+                return ApiResponse<ProductResponse>.FailureResponse("商品名稱已被其他商品使用");
 
             // 更新商品
             product.Name = request.Name;
@@ -156,11 +155,11 @@ public class ProductService
             await _context.SaveChangesAsync();
 
             var productDto = MapToProductDto(product);
-            return ApiResponse<ProductDto>.SuccessResponse(productDto, "商品修改成功");
+            return ApiResponse<ProductResponse>.SuccessResponse(productDto, "商品修改成功");
         }
         catch (Exception ex)
         {
-            return ApiResponse<ProductDto>.FailureResponse($"伺服器錯誤: {ex.Message}");
+            return ApiResponse<ProductResponse>.FailureResponse($"伺服器錯誤: {ex.Message}");
         }
     }
 
@@ -185,24 +184,24 @@ public class ProductService
     }
 
     // 私有方法：驗證商品請求
-    private ApiResponse<ProductDto>? ValidateProductRequest(CreateProductRequest request)
+    private ApiResponse<ProductResponse>? ValidateProductRequest(CreateProductRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Name))
-            return ApiResponse<ProductDto>.FailureResponse("商品名稱不能為空");
+            return ApiResponse<ProductResponse>.FailureResponse("商品名稱不能為空");
 
         if (request.Price <= 0)
-            return ApiResponse<ProductDto>.FailureResponse("商品價格必須大於 0");
+            return ApiResponse<ProductResponse>.FailureResponse("商品價格必須大於 0");
 
         if (request.Stock < 0)
-            return ApiResponse<ProductDto>.FailureResponse("庫存不能為負數");
+            return ApiResponse<ProductResponse>.FailureResponse("庫存不能為負數");
 
         return null;
     }
 
     // 私有方法：映射到 DTO
-    private ProductDto MapToProductDto(Product product)
+    private ProductResponse MapToProductDto(Product product)
     {
-        return new ProductDto
+        return new ProductResponse
         {
             Id = product.Id,
             Name = product.Name,
