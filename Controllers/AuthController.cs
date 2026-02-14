@@ -77,7 +77,7 @@ public class AuthController : ControllerBase
         {
             Message = "登入成功",
             Token = token,
-            User = new UserDto
+            User = new UserResponse
             {
                 Id = user.Id,
                 Email = user.Email,

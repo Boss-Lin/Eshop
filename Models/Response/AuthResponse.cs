@@ -1,10 +1,8 @@
-using EShop.DTO;
-
 namespace EShop.Models.Response;
 
 public class AuthResponse
 {
     public string Message { get; set; } = string.Empty;
     public string Token { get; set; } = string.Empty;
-    public UserDto? User { get; set; }
+    public UserResponse? User { get; set; }
 }
