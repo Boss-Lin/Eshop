@@ -39,6 +39,49 @@ public class AppDbContext : IdentityDbContext<User, Role, int,
             .WithMany(r => r.UserRoles)
             .HasForeignKey(ur => ur.RoleId);
 
+        // 配置 Cart
+        modelBuilder.Entity<Cart>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            // 一個使用者只能有一個購物車
+            entity.HasIndex(e => e.UserId).IsUnique();
+
+            // 與 User 的關係
+            entity.HasOne(e => e.User)
+                .WithMany()
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // 配置 CartItem
+        modelBuilder.Entity<CartItem>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            // 與 Cart 的關係
+            entity.HasOne(e => e.Cart)
+                .WithMany(c => c.CartItems)
+                .HasForeignKey(e => e.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 與 Product 的關係
+            entity.HasOne(e => e.Product)
+                .WithMany(p => p.CartItems)
+                .HasForeignKey(e => e.ProductId)
+                .OnDelete(DeleteBehavior.Restrict); // 商品被刪除時不自動刪除購物車項目
+
+            // 複合索引：同一購物車中的商品不重複
+            entity.HasIndex(e => new { e.CartId, e.ProductId }).IsUnique();
+        });
+
+        // 配置 Product
+        modelBuilder.Entity<Product>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Price).HasPrecision(18, 2);
+        });
+
         // ============ 種子資料 ============
 
         // 1. 種子角色
@@ -332,6 +375,75 @@ public class AppDbContext : IdentityDbContext<User, Role, int,
                 Quantity = 2,
                 UnitPrice = 49.99m,
                 TotalPrice = 99.98m
+            }
+        );
+
+        // 8. 種子購物車
+        modelBuilder.Entity<Cart>().HasData(
+            new Cart
+            {
+                Id = 1,
+                UserId = 2,  // customer1@example.com 的購物車
+                CreatedAt = DateTime.UtcNow.AddDays(-2),
+                UpdatedAt = DateTime.UtcNow
+            },
+            new Cart
+            {
+                Id = 2,
+                UserId = 3,  // customer2@example.com 的購物車
+                CreatedAt = DateTime.UtcNow.AddDays(-1),
+                UpdatedAt = DateTime.UtcNow
+            }
+        );
+
+        // 9. 種子購物車項目
+        modelBuilder.Entity<CartItem>().HasData(
+            // customer1 的購物車項目
+            new CartItem
+            {
+                Id = 1,
+                CartId = 1,
+                ProductId = 3,  // iPad Air
+                Quantity = 1,
+                Price = 599.99m,  // 價格快照
+                AddedAt = DateTime.UtcNow.AddDays(-2)
+            },
+            new CartItem
+            {
+                Id = 2,
+                CartId = 1,
+                ProductId = 9,  // 檯燈
+                Quantity = 2,
+                Price = 39.99m,  // 價格快照
+                AddedAt = DateTime.UtcNow.AddDays(-1)
+            },
+            new CartItem
+            {
+                Id = 3,
+                CartId = 1,
+                ProductId = 5,  // .NET Core 實戰
+                Quantity = 1,
+                Price = 59.99m,  // 價格快照
+                AddedAt = DateTime.UtcNow
+            },
+            // customer2 的購物車項目
+            new CartItem
+            {
+                Id = 4,
+                CartId = 2,
+                ProductId = 2,  // MacBook Pro 16
+                Quantity = 1,
+                Price = 2499.99m,  // 價格快照
+                AddedAt = DateTime.UtcNow.AddDays(-1)
+            },
+            new CartItem
+            {
+                Id = 5,
+                CartId = 2,
+                ProductId = 6,  // T恤
+                Quantity = 3,
+                Price = 19.99m,  // 價格快照
+                AddedAt = DateTime.UtcNow.AddHours(-12)
             }
         );
     }

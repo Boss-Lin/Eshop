@@ -136,7 +136,7 @@ try
     builder.Services.AddScoped<ProductService>();
     // 可以在這裡添加更多服務
     // builder.Services.AddScoped<OrderService>();
-    // builder.Services.AddScoped<CartService>();
+    builder.Services.AddScoped<CartService>();
 
     // 配置 Controllers 和 JSON 選項
     builder.Services.AddControllers()
