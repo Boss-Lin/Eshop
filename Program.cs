@@ -231,15 +231,15 @@ try
     }
 
     // 配置 HTTP 請求管線
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "EShop API v1");
+        options.RoutePrefix = "swagger";
+    });
+
     if (app.Environment.IsDevelopment())
     {
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "EShop API v1");
-            options.RoutePrefix = "swagger"; // 設定 Swagger UI 為根路徑
-        });
-
         app.UseCors("AllowAll");
         app.UseDeveloperExceptionPage();
     }
@@ -247,7 +247,7 @@ try
     {
         app.UseExceptionHandler("/error");
         app.UseHsts();
-        app.UseCors("Production");
+        app.UseCors("AllowAll");
     }
 
     // 中介軟體順序很重要
