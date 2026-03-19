@@ -1,0 +1,15 @@
+bin/
+obj/
+*.db
+*.db-shm
+*.db-wal
+logs/
+.vs/
+.vscode/
+*.user
+*.suo
+.git/
+.gitignore
+README.md
+.env
+appsettings.Development.json

@@ -5,7 +5,7 @@ using EShop.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EShop.Controllers;
+namespace EShop.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

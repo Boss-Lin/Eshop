@@ -1,0 +1,64 @@
+## 第一次部署失敗的原因
+
+### 問題：從錯誤的目錄執行 `eb deploy`
+
+第一次我從 `publish/` 目錄執行 `eb deploy`，但 `.elasticbeanstalk/config.yml`（EB 的設定檔）在專案根目錄，導致 EB CLI 找不到 Application 對應關係，出現：
+
+```
+ERROR: InvalidParameterValueError - No Application Version named '...' found.
+```
+
+### 解法：改用 AWS CLI 手動部署
+
+改為三步驟手動流程：
+1. `zip` 打包 publish 輸出
+2. `aws s3 cp` 上傳到 S3
+3. `aws elasticbeanstalk create-application-version` + `update-environment` 直接操作 EB API
+
+---
+
+## Swagger 進不去的原因
+
+### 問題：Swagger 只在 Development 模式啟用
+
+`Program.cs` 原本的寫法：
+
+```csharp
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();      // ← 只有 Development 才執行
+    app.UseSwaggerUI(...); // ← Production 完全跳過
+}
+```
+
+EB 上跑的是 `Production` 環境（`.ebextensions/environment.config` 設定了 `ASPNETCORE_ENVIRONMENT: Production`），所以 Swagger 根本沒被註冊，nginx 收到請求後找不到路由，回傳 404。
+
+### 修改內容
+
+```csharp
+// 改後：移到 if 外面，任何環境都啟用
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "EShop API v1");
+    options.RoutePrefix = "swagger";
+});
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("AllowAll");
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/error");
+    app.UseHsts();
+    app.UseCors("AllowAll"); // ← 原本是 "Production"，但那個 Policy 只允許 yourdomain.com（佔位符），會擋掉所有請求
+}
+```
+
+CORS 也一併改了，因為原本 `"Production"` policy 設定的是：
+```csharp
+builder.WithOrigins("https://yourdomain.com", "https://www.yourdomain.com")
+```
+這是沒有替換的佔位符，實際上會擋掉所有來源的請求。

@@ -3,6 +3,7 @@ using EShop.Models;
 using EShop.Models.Request;
 using EShop.Models.Response;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EShop.Service;
 
